@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.anggit97.academy.R
 import com.anggit97.academy.adapter.BookmarkAdapter
 import com.anggit97.academy.adapter.BookmarkFragmentCallback
-import com.anggit97.academy.data.CourseEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 

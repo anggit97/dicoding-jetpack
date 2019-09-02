@@ -2,9 +2,9 @@ package com.anggit97.academy.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.anggit97.academy.data.ContentEntity
-import com.anggit97.academy.data.CourseEntity
-import com.anggit97.academy.data.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.ContentEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
+import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.remote.RemoteRepository
 import com.anggit97.academy.data.source.remote.response.ContentResponse
 import com.anggit97.academy.data.source.remote.response.CourseResponse
@@ -142,7 +142,10 @@ open class AcademyRepository private constructor(
 
                         remoteRepository.getContent(moduleId, object : RemoteRepository.GetContentCallback{
                             override fun onContentRecieved(contentResponse: ContentResponse) {
-                                content.contentEntity = ContentEntity(contentResponse.content)
+                                content.contentEntity =
+                                    ContentEntity(
+                                        contentResponse.content
+                                    )
                                 contentResult.postValue(content)
                             }
 

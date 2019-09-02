@@ -1,8 +1,8 @@
 package com.anggit97.academy.data.source
 
 import androidx.lifecycle.LiveData
-import com.anggit97.academy.data.ModuleEntity
-import com.anggit97.academy.data.CourseEntity
+import com.anggit97.academy.data.source.local.entity.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
 
 
 /**

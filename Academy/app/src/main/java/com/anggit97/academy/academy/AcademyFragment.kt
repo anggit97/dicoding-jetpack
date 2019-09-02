@@ -5,19 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.anggit97.academy.R
 import com.anggit97.academy.adapter.AcademyAdapter
-import com.anggit97.academy.data.CourseEntity
-import com.anggit97.academy.utils.DataDummy
+import com.anggit97.academy.data.source.local.entity.CourseEntity
 import kotlinx.android.synthetic.main.fragment_academy.*
 import com.anggit97.academy.viewmodel.ViewModelFactory
 import androidx.fragment.app.FragmentActivity
-import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 
 

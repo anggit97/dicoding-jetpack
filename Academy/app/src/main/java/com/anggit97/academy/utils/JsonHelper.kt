@@ -15,7 +15,7 @@ import java.io.IOException
  */
 class JsonHelper(val application: Application) {
 
-    fun parsingFileToString(fileName: String): String? {
+    private fun parsingFileToString(fileName: String): String? {
         return try {
             val `is` = application.assets.open(fileName)
             val buffer = ByteArray(`is`.available())

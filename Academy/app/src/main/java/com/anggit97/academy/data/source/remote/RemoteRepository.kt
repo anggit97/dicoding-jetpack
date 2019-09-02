@@ -5,6 +5,7 @@ import com.anggit97.academy.utils.JsonHelper
 import com.anggit97.academy.data.source.remote.response.ContentResponse
 import com.anggit97.academy.data.source.remote.response.ModuleResponse
 import com.anggit97.academy.data.source.remote.response.CourseResponse
+import com.anggit97.academy.utils.EspressoIdlingResource
 
 
 /**
@@ -28,22 +29,28 @@ class RemoteRepository constructor(private val jsonHelper: JsonHelper) {
     }
 
     fun getAllCourses(callback: LoadCourseCallback){
+        EspressoIdlingResource.increment()
         val handler = Handler()
         handler.postDelayed({
+            EspressoIdlingResource.decrement()
             callback.onAllCourseRecieved(jsonHelper.loadCourses())
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
     fun getModules(courseId: String, callback: LoadModuleCallback){
+        EspressoIdlingResource.increment()
         val handler = Handler()
         handler.postDelayed({
+            EspressoIdlingResource.decrement()
             callback.onAllModuleRecieved(jsonHelper.loadModule(courseId))
         }, SERVICE_LATENCY_IN_MILLIS)
     }
 
     fun getContent(moduleId: String, callback: GetContentCallback){
+        EspressoIdlingResource.increment()
         val handler = Handler()
         handler.postDelayed({
+            EspressoIdlingResource.decrement()
             jsonHelper.loadContent(moduleId)?.let { callback.onContentRecieved(it) }
         }, SERVICE_LATENCY_IN_MILLIS)
     }

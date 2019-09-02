@@ -8,14 +8,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-import org.hamcrest.CoreMatchers.*
-import org.junit.Assert.*
-import com.anggit97.academy.data.CourseEntity
-import com.anggit97.academy.data.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
+import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.AcademyRepository
 import com.anggit97.academy.utils.DataDummy
 import org.junit.Rule
-import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 

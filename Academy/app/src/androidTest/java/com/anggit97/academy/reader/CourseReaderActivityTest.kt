@@ -3,6 +3,7 @@ package com.anggit97.academy.reader
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -11,8 +12,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.anggit97.academy.R
+import com.anggit97.academy.utils.EspressoIdlingResource
 import com.anggit97.academy.utils.FakeDataDummy
 import com.anggit97.academy.utils.RecyclerViewItemCountAssertion
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -50,13 +54,18 @@ class CourseReaderActivityTest {
 //
 //    Memastikan WebView sudah tampil.
 
+    @Before
+    fun setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.espressoIdlingResourceForMainActivity)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.espressoIdlingResourceForMainActivity)
+    }
+
     @Test
     fun courseReaderTest() {
-        try {
-            Thread.sleep(3000)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
         onView(withId(R.id.frame_container)).apply {
             check(matches(isDisplayed()))
         }
@@ -64,11 +73,6 @@ class CourseReaderActivityTest {
 
     @Test
     fun modulesTest() {
-        try {
-            Thread.sleep(3000)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
         onView(withId(R.id.rv_module)).apply {
             check(matches(isDisplayed()))
             check(RecyclerViewItemCountAssertion(7))

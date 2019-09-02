@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anggit97.academy.R;
-import com.anggit97.academy.data.CourseEntity;
+import com.anggit97.academy.data.source.local.entity.CourseEntity;
 import com.anggit97.academy.detail.DetailCourseActivity;
 import com.anggit97.academy.utils.GlideApp;
 import com.bumptech.glide.request.RequestOptions;

@@ -3,16 +3,14 @@ package com.anggit97.academy.bookmark
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.anggit97.academy.data.CourseEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.AcademyRepository
 import com.anggit97.academy.utils.DataDummy
-import org.hamcrest.CoreMatchers.`is`
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-import org.junit.Assert.*
 import org.junit.Rule
 import org.mockito.Mock
 import org.mockito.Mockito.*

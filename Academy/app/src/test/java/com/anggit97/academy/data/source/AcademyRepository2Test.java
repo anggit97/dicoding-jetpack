@@ -1,26 +1,8 @@
 package com.anggit97.academy.data.source;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-
-import com.anggit97.academy.academy.FakeAcademyRepository;
-import com.anggit97.academy.data.CourseEntity;
-import com.anggit97.academy.data.ModuleEntity;
-import com.anggit97.academy.data.source.remote.RemoteRepository;
-import com.anggit97.academy.data.source.remote.response.ContentResponse;
-import com.anggit97.academy.data.source.remote.response.CourseResponse;
-import com.anggit97.academy.data.source.remote.response.ModuleResponse;
-import com.anggit97.academy.utils.FakeDataDummy;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Anggit Prayogo on 2019-09-01.

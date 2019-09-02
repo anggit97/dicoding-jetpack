@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anggit97.academy.R;
-import com.anggit97.academy.data.ModuleEntity;
+import com.anggit97.academy.data.source.local.entity.ModuleEntity;
 
 import java.util.ArrayList;
 import java.util.List;

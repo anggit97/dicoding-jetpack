@@ -2,7 +2,7 @@ package com.anggit97.academy.reader
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.anggit97.academy.data.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.AcademyRepository
 
 

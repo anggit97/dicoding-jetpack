@@ -2,8 +2,8 @@ package com.anggit97.academy.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.anggit97.academy.data.CourseEntity
-import com.anggit97.academy.data.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
+import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.AcademyRepository
 
 

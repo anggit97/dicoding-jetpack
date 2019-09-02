@@ -1,6 +1,6 @@
 package com.anggit97.academy.adapter
 
-import com.anggit97.academy.data.CourseEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
 
 /**
  * Created by Anggit PRayogo on 2019-08-23.

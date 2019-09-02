@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.anggit97.academy.R
-import com.anggit97.academy.data.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.reader.CourseReaderViewModel
 import com.anggit97.academy.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_module_content.*

@@ -1,7 +1,7 @@
 package com.anggit97.academy.utils
 
-import com.anggit97.academy.data.CourseEntity
-import com.anggit97.academy.data.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
+import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.remote.response.ContentResponse
 import com.anggit97.academy.data.source.remote.response.ModuleResponse
 import com.anggit97.academy.data.source.remote.response.CourseResponse

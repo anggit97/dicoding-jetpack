@@ -3,10 +3,9 @@ package com.anggit97.academy.academy
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.anggit97.academy.data.CourseEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.AcademyRepository
 import com.anggit97.academy.utils.DataDummy
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

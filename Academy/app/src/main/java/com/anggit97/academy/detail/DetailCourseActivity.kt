@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anggit97.academy.R
 import com.anggit97.academy.adapter.DetailCourseAdapter
-import com.anggit97.academy.data.CourseEntity
-import com.anggit97.academy.data.ModuleEntity
+import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.reader.CourseReaderActivity
 import com.anggit97.academy.utils.GlideApp
 import com.anggit97.academy.viewmodel.ViewModelFactory
