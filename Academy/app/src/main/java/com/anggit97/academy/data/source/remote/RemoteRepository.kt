@@ -11,7 +11,7 @@ import com.anggit97.academy.data.source.remote.response.CourseResponse
  * Created by Anggit Prayogo on 2019-08-30.
  * Github : @anggit97
  */
-open class RemoteRepository constructor(private val jsonHelper: JsonHelper) {
+class RemoteRepository constructor(private val jsonHelper: JsonHelper) {
 
     private val SERVICE_LATENCY_IN_MILLIS : Long = 2000
 
