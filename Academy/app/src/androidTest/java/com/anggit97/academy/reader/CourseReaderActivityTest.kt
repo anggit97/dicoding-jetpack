@@ -52,6 +52,11 @@ class CourseReaderActivityTest {
 
     @Test
     fun courseReaderTest() {
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.frame_container)).apply {
             check(matches(isDisplayed()))
         }
@@ -59,6 +64,11 @@ class CourseReaderActivityTest {
 
     @Test
     fun modulesTest() {
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.rv_module)).apply {
             check(matches(isDisplayed()))
             check(RecyclerViewItemCountAssertion(7))

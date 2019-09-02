@@ -19,11 +19,22 @@ class HomeActivityTest {
 
     @Test
     fun detailCourseActivityTest() {
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.rv_academy)).apply {
             check(matches(isDisplayed()))
             perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         }
 
+
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.text_title)).apply {
             check(matches(isDisplayed()))
             check(matches(withText("Menjadi Android Developer Expert")))
@@ -32,18 +43,42 @@ class HomeActivityTest {
 
     @Test
     fun moveToCourseReaderActivity() {
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.rv_academy)).apply {
             check(matches(isDisplayed()))
             perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        }
+
+
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
         }
         onView(withId(R.id.btn_start)).apply {
             check(matches(isDisplayed()))
             perform(click())
         }
         onView(withId(R.id.frame_container)).check(matches(isDisplayed()))
+
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.rv_module)).apply {
             check(matches(isDisplayed()))
             perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        }
+
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
         }
         onView(withId(R.id.web_view)).check(matches(isDisplayed()))
     }

@@ -30,6 +30,11 @@ class DetailCourseActivityTest {
 
     @Test
     fun detailModuleTest() {
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.rv_module)).apply {
             check(matches(isDisplayed()))
             check(RecyclerViewItemCountAssertion(7))
@@ -38,11 +43,21 @@ class DetailCourseActivityTest {
 
     @Test
     fun courseTest() {
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.text_title)).apply {
             check(matches(isDisplayed()))
             check(matches(withText("Menjadi Android Developer Expert")))
         }
 
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
         onView(withId(R.id.text_date)).apply {
             check(matches(isDisplayed()))
             check(matches(withText(String.format("Deadline %s", courseEntity.deadline))))
