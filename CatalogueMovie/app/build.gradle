@@ -16,7 +16,9 @@ android {
         versionCode Releases.versionCode
         versionName Releases.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/3/\""
         buildConfigField "String", "BASE_URL_IMAGE", "\"https://image.tmdb.org/t/p/w500\""
+        buildConfigField "String", "API_KEY", "\"00fadd6af89412de4c1a3ecd7fe631f6\""
     }
     buildTypes {
         release {
@@ -38,6 +40,12 @@ dependencies {
     implementation AndroidSupport.constraintLayout
     implementation AndroidSupport.v4
 
+    implementation Retrofit.retrofit
+    implementation Retrofit.gson
+    implementation Retrofit.gsonConverter
+    implementation Retrofit.okHttpLogging
+    implementation Retrofit.okHttpClient
+
     implementation Anko.common
     implementation Anko.design
 
@@ -51,22 +59,6 @@ dependencies {
 
     implementation ImageRenderer.glide
     kapt ImageRenderer.glideProccessor
-
-//    testImplementation Testing.junit
-//    testImplementation Testing.mockitoHemcrest
-//    testImplementation Testing.mockitoCore
-//    testImplementation Testing.mockitoInline
-//
-//    androidTestImplementation Testing.mockitoCore
-//    androidTestImplementation Testing.mockitoAndroid
-//    androidTestImplementation Testing.rules
-//    androidTestImplementation Testing.runner
-//    androidTestImplementation Testing.espressoCore
-//    androidTestImplementation Testing.espressoContrib
-//    androidTestImplementation Testing.mockitoKotlin
-//    androidTestImplementation Testing.archLifecycle
-//    androidTestImplementation Testing.ext
-//    androidTestImplementation Testing.core
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$junitVersion"

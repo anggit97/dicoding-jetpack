@@ -65,6 +65,7 @@ object Version {
     const val gson = "2.8.2"
     const val okhttp = "3.12.1"
     const val okhttpLogging = "3.8.1"
+    const val okHttpClient = "4.1.0"
     const val rxjavaAdapter = "1.0.0"
 
     /**
@@ -172,6 +173,7 @@ object Retrofit {
     val gson = "com.google.code.gson:gson:${Version.gson}"
     val rxAdapter = "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${Version.rxjavaAdapter}"
     val okHttpLogging = "com.squareup.okhttp3:logging-interceptor:${Version.okhttpLogging}"
+    val okHttpClient = "com.squareup.okhttp3:okhttp:${Version.okhttpLogging}"
 }
 
 object Reactivex {
