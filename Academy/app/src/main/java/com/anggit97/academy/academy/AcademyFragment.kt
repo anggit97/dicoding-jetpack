@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_academy.*
 import com.anggit97.academy.viewmodel.ViewModelFactory
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import com.anggit97.academy.vo.Status
+import com.anggit97.academy.vo.Status.*
 
 
 /**
@@ -24,7 +27,6 @@ class AcademyFragment : Fragment() {
 
     private var academyAdapter: AcademyAdapter? = null
     private lateinit var academyViewModel: AcademyViewModel
-    private var courses: ArrayList<CourseEntity> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +46,24 @@ class AcademyFragment : Fragment() {
             rv_academy?.setHasFixedSize(true)
             rv_academy?.adapter = academyAdapter
 
-            academyViewModel.getCourses().observe(this, Observer {
-                progress_bar.visibility = View.GONE
-                academyAdapter?.setListCourses(it)
-                academyAdapter?.notifyDataSetChanged()
+            academyViewModel.setUsername("anggit")
+            academyViewModel.courses.observe(this, Observer {
+                if (it != null) {
+                    when (it.status) {
+                        LOADING -> {
+                            progress_bar.visibility = View.VISIBLE
+                        }
+                        SUCCESS -> {
+                            progress_bar.visibility = View.GONE
+                            academyAdapter?.setListCourses(it.data)
+                            academyAdapter?.notifyDataSetChanged()
+                        }
+                        ERROR -> {
+                            progress_bar.visibility = View.GONE
+                            Toast.makeText(activity, "Terjadi kesalahan", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
             })
         }
     }

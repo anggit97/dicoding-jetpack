@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -14,7 +15,10 @@ import com.anggit97.academy.R
 import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.reader.CourseReaderViewModel
 import com.anggit97.academy.viewmodel.ViewModelFactory
+import com.anggit97.academy.vo.Status
 import kotlinx.android.synthetic.main.fragment_module_content.*
+
+
 
 
 /**
@@ -45,9 +49,56 @@ class ModuleContentFragment : Fragment() {
         if (activity != null) {
             readerViewModel = obtainViewModel(activity!!)
             readerViewModel.selectedModule.observe(this, Observer { module ->
-                progress_bar.visibility = View.GONE
-                populateWebView(module)
+                module?.let { data ->
+                    setButtonNextPrevState(data.data!!)
+                    when (data.status) {
+                        Status.SUCCESS -> {
+                            progress_bar.visibility = View.GONE
+                            data.data.let { item ->
+                                if (!item.read!!) {
+                                    readerViewModel.readContent(item)
+                                }
+
+                                populateWebView(item)
+                            }
+                        }
+                        Status.ERROR -> {
+                            progress_bar.visibility = View.GONE
+                            Toast.makeText(activity, "Terjadi kesalahan", Toast.LENGTH_LONG).show()
+                        }
+                        Status.LOADING -> {
+                            progress_bar.visibility = View.VISIBLE
+                        }
+                    }
+                }
             })
+        }
+
+        btn_next.setOnClickListener {
+            readerViewModel.setNextPage()
+        }
+
+        btn_prev.setOnClickListener {
+            readerViewModel.setPrevPage()
+        }
+    }
+
+    private fun setButtonNextPrevState(module: ModuleEntity) {
+        if (activity != null) {
+            when {
+                module.position == 0 -> {
+                    btn_prev.isEnabled = false
+                    btn_next.isEnabled = true
+                }
+                module.position === readerViewModel.getModuleSize() - 1 -> {
+                    btn_prev.isEnabled = true
+                    btn_next.isEnabled = false
+                }
+                else -> {
+                    btn_prev.isEnabled = true
+                    btn_next.isEnabled = true
+                }
+            }
         }
     }
 

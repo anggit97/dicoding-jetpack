@@ -1,6 +1,8 @@
 package com.anggit97.academy.detail
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.local.entity.ModuleEntity
@@ -14,21 +16,31 @@ import com.anggit97.academy.data.source.AcademyRepository
 class DetailCourseViewModel(private val mAcademyRepository: AcademyRepository) : ViewModel() {
 
     private var courseEntity: CourseEntity? = null
-    private var courseId: String = ""
+    private var courseId = MutableLiveData<String>()
 
-    fun getCourse(): LiveData<CourseEntity?> {
-        return mAcademyRepository.getCourseWithModules(courseId)
+    var courseModules = Transformations.switchMap(
+        courseId
+    ) { mCourseId ->
+        mAcademyRepository.getCourseWithModules(mCourseId)
     }
 
-    fun getModules(): LiveData<ArrayList<ModuleEntity>> {
-        return mAcademyRepository.getAllModulesByCourse(courseId)
+    fun setCourseId(courseId: String){
+        this.courseId.value = courseId
     }
 
-    fun setCourseId(courseId: String) {
-        this.courseId = courseId
+    fun getCourseId(): String?{
+        return courseId.value
     }
 
-    fun getCourseId(): String {
-        return courseId
+    fun setBookmarks(){
+        courseModules.value?.let {
+            val courseModule = it.data
+            courseModule?.let {
+                val courseEntity = courseModule.courseEntity
+
+                val newState = courseEntity?.bookmarked
+                mAcademyRepository.setCourseBookmark(courseEntity!!, newState!!)
+            }
+        }
     }
 }

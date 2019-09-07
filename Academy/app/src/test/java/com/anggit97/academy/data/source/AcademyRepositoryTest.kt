@@ -53,14 +53,14 @@ class AcademyRepositoryTest {
             (invocation.arguments[0] as RemoteRepository.LoadCourseCallback)
                 .onAllCourseRecieved(courseResponses)
             return@doAnswer null
-        }.`when`(remote).getAllCourses(any())
+        }.`when`(remote).getAllCoursesAsLiveData(any())
 
         val result = LiveDataTestUtil.getValue(academyRepository.getAllCourses())
 
         verify(
             remote,
             times(1)
-        ).getAllCourses(any())
+        ).getAllCoursesAsLiveData(any())
 
         assertNotNull(result)
         assertEquals(courseResponses.size, result.size)
@@ -72,11 +72,11 @@ class AcademyRepositoryTest {
             (invocation.arguments[0] as RemoteRepository.LoadCourseCallback)
                 .onAllCourseRecieved(courseResponses)
             return@doAnswer null
-        }.`when`(remote).getAllCourses(any())
+        }.`when`(remote).getAllCoursesAsLiveData(any())
 
         val results = LiveDataTestUtil.getValue(academyRepository.getBookmarkedCourses())
 
-        verify(remote, times(1)).getAllCourses(any())
+        verify(remote, times(1)).getAllCoursesAsLiveData(any())
 
         assertNotNull(results)
         assertEquals(courseResponses.size, results.size)
@@ -136,11 +136,11 @@ class AcademyRepositoryTest {
             (it.arguments[0] as RemoteRepository.LoadCourseCallback)
                 .onAllCourseRecieved(courseResponses)
             return@doAnswer null
-        }.`when`(remote).getAllCourses(any())
+        }.`when`(remote).getAllCoursesAsLiveData(any())
 
         val result = LiveDataTestUtil.getValue(academyRepository.getCourseWithModules(courseId))
 
-        verify(remote, times(1)).getAllCourses(any())
+        verify(remote, times(1)).getAllCoursesAsLiveData(any())
 
         assertNotNull(result)
         assertEquals(courseResponses[0].title, result?.title)

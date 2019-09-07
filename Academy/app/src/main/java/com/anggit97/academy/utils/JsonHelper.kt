@@ -29,7 +29,7 @@ class JsonHelper(val application: Application) {
         }
     }
 
-    fun loadCourses(): List<CourseResponse> {
+    fun loadCourses(): ArrayList<CourseResponse> {
         val list = arrayListOf<CourseResponse>()
 
         try {
@@ -54,7 +54,7 @@ class JsonHelper(val application: Application) {
         return list
     }
 
-    fun loadModule(courseId: String): List<ModuleResponse> {
+    fun loadModule(courseId: String): ArrayList<ModuleResponse> {
         val fileName = String.format("Module_%s.json", courseId)
         val list = arrayListOf<ModuleResponse>()
         try {

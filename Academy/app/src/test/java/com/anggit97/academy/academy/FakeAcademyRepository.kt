@@ -22,7 +22,7 @@ class FakeAcademyRepository(
 
     override fun getAllCourses(): LiveData<ArrayList<CourseEntity>> {
         val courseResult = MutableLiveData<ArrayList<CourseEntity>>()
-        remoteRepository.getAllCourses(object : RemoteRepository.LoadCourseCallback {
+        remoteRepository.getAllCoursesAsLiveData(object : RemoteRepository.LoadCourseCallback {
             override fun onAllCourseRecieved(courseResponse: List<CourseResponse>) {
                 val courseList = arrayListOf<CourseEntity>()
                 for (i in 0 until courseResponse.size) {
@@ -50,7 +50,7 @@ class FakeAcademyRepository(
 
     override fun getCourseWithModules(courseId: String): LiveData<CourseEntity?> {
         val courseResult = MutableLiveData<CourseEntity>()
-        remoteRepository.getAllCourses(object : RemoteRepository.LoadCourseCallback {
+        remoteRepository.getAllCoursesAsLiveData(object : RemoteRepository.LoadCourseCallback {
             override fun onAllCourseRecieved(courseResponse: List<CourseResponse>) {
                 for (item in courseResponse) {
                     if (item.id == courseId) {
@@ -76,7 +76,7 @@ class FakeAcademyRepository(
 
     override fun getBookmarkedCourses(): MutableLiveData<ArrayList<CourseEntity>> {
         val courseResults = MutableLiveData<ArrayList<CourseEntity>>()
-        remoteRepository.getAllCourses(object : RemoteRepository.LoadCourseCallback {
+        remoteRepository.getAllCoursesAsLiveData(object : RemoteRepository.LoadCourseCallback {
             override fun onAllCourseRecieved(courseResponse: List<CourseResponse>) {
                 val bookmarksList = ArrayList<CourseEntity>()
                 for (item in courseResponse) {

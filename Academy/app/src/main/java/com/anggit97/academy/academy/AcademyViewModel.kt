@@ -1,8 +1,8 @@
 package com.anggit97.academy.academy
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.AcademyRepository
 
 /**
@@ -11,7 +11,15 @@ import com.anggit97.academy.data.source.AcademyRepository
  */
 class AcademyViewModel(private val mAcademyRepository: AcademyRepository) : ViewModel() {
 
-    fun getCourses(): LiveData<ArrayList<CourseEntity>> {
-        return mAcademyRepository.getAllCourses()
+    private var mLogin = MutableLiveData<String>()
+
+    val courses = Transformations.switchMap(
+        mLogin
+    ) {
+        mAcademyRepository.getAllCourses()
+    }
+
+    fun setUsername(username: String){
+        mLogin.value = username
     }
 }

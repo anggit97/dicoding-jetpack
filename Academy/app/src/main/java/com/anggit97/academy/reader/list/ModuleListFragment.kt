@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -20,6 +21,7 @@ import com.anggit97.academy.adapter.ModuleListAdapterListener
 import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.reader.CourseReaderViewModel
 import com.anggit97.academy.viewmodel.ViewModelFactory
+import com.anggit97.academy.vo.Status
 import kotlinx.android.synthetic.main.fragment_module_list.*
 
 
@@ -56,8 +58,22 @@ class ModuleListFragment : Fragment(), ModuleListAdapterListener {
             adapter = ModuleListAdapter(this)
 
             readerViewModel.modules.observe(this, Observer { modules ->
-                progress_bar.visibility = View.GONE
-                populateRecyclerView(modules)
+                modules?.let {
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            progress_bar.visibility = View.GONE
+                            populateRecyclerView(it.data!!)
+
+                        }
+                        Status.ERROR -> {
+                            progress_bar.visibility = View.GONE
+                            Toast.makeText(activity, "Terjadi Kesalahan", Toast.LENGTH_LONG).show()
+                        }
+                        Status.LOADING -> {
+                            progress_bar.visibility = View.VISIBLE
+                        }
+                    }
+                }
             })
         }
     }

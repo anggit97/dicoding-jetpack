@@ -23,10 +23,10 @@ public class AcademyRepository2Test {
 //    private ContentResponse content = FakeDataDummy.generateRemoteDummyContent(moduleId);
 //
 //    @Test
-//    public void getAllCourses() {
-//        when(remote.getAllCourses()).thenReturn(courseResponses);
-//        ArrayList<CourseEntity> courseEntities = academyRepository.getAllCourses();
-//        verify(remote).getAllCourses();
+//    public void getAllCoursesAsLiveData() {
+//        when(remote.getAllCoursesAsLiveData()).thenReturn(courseResponses);
+//        ArrayList<CourseEntity> courseEntities = academyRepository.getAllCoursesAsLiveData();
+//        verify(remote).getAllCoursesAsLiveData();
 //        assertNotNull(courseEntities);
 //        assertEquals(courseResponses.size(), courseEntities.size());
 //    }
@@ -42,9 +42,9 @@ public class AcademyRepository2Test {
 //
 //    @Test
 //    public void getBookmarkedCourses() {
-//        when(remote.getAllCourses()).thenReturn(courseResponses);
+//        when(remote.getAllCoursesAsLiveData()).thenReturn(courseResponses);
 //        ArrayList<CourseEntity> courseEntities = academyRepository.getBookmarkedCourses();
-//        verify(remote).getAllCourses();
+//        verify(remote).getAllCoursesAsLiveData();
 //        assertNotNull(courseEntities);
 //        assertEquals(courseResponses.size(), courseEntities.size());
 //    }
@@ -62,9 +62,9 @@ public class AcademyRepository2Test {
 //
 //    @Test
 //    public void getCourseWithModules() {
-//        when(remote.getAllCourses()).thenReturn(courseResponses);
+//        when(remote.getAllCoursesAsLiveData()).thenReturn(courseResponses);
 //        CourseEntity resultCourse = academyRepository.getCourseWithModules(courseId);
-//        verify(remote).getAllCourses();
+//        verify(remote).getAllCoursesAsLiveData();
 //        assertNotNull(resultCourse);
 //        assertEquals(courseResponses.get(0).getTitle(), resultCourse.getTitle());
 //    }

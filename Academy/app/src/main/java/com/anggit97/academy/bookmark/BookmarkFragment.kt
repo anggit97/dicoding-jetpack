@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -16,6 +17,7 @@ import com.anggit97.academy.adapter.BookmarkAdapter
 import com.anggit97.academy.adapter.BookmarkFragmentCallback
 import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.viewmodel.ViewModelFactory
+import com.anggit97.academy.vo.Status
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 
 
@@ -27,7 +29,6 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
     private var adapter: BookmarkAdapter? = null
 
     private lateinit var bookmarkViewModel: BookmarkViewModel
-    private var bookmarks: ArrayList<CourseEntity> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,9 +49,20 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
             rv_bookmark?.adapter = adapter
 
             bookmarkViewModel.getBookmarks().observe(this, Observer {
-                progress_bar.visibility = View.GONE
-                adapter?.setListCourses(it)
-                adapter?.notifyDataSetChanged()
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        progress_bar.visibility = View.GONE
+                        adapter?.setListCourses(it.data)
+                        adapter?.notifyDataSetChanged()
+                    }
+                    Status.ERROR -> {
+                        progress_bar.visibility = View.GONE
+                        Toast.makeText(activity, "Terjadi kesalahan", Toast.LENGTH_LONG).show()
+                    }
+                    Status.LOADING -> {
+                        progress_bar.visibility = View.VISIBLE
+                    }
+                }
             })
         }
     }

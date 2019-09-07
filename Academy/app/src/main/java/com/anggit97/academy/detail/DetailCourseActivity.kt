@@ -2,8 +2,12 @@ package com.anggit97.academy.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,6 +18,7 @@ import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.reader.CourseReaderActivity
 import com.anggit97.academy.utils.GlideApp
 import com.anggit97.academy.viewmodel.ViewModelFactory
+import com.anggit97.academy.vo.Status.*
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail_course.*
 import kotlinx.android.synthetic.main.content_detail_course.*
@@ -23,6 +28,7 @@ class DetailCourseActivity : AppCompatActivity() {
 
     private var adapter: DetailCourseAdapter? = null
     private lateinit var detailCourseViewModel: DetailCourseViewModel
+    private lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,15 +45,16 @@ class DetailCourseActivity : AppCompatActivity() {
             if (courseId != null) {
                 detailCourseViewModel.setCourseId(courseId)
 
-                detailCourseViewModel.getModules().observe(this, Observer {
-                    progress_bar.visibility = View.GONE
-                    adapter?.setModules(it)
-                    adapter?.notifyDataSetChanged()
-                })
-
-                detailCourseViewModel.getCourse().observe(this, Observer {
-                    it?.let {
-                        populateCourse(it)
+                detailCourseViewModel.courseModules.observe(this, Observer {
+                    when (it.status) {
+                        LOADING -> progress_bar.visibility = View.VISIBLE
+                        SUCCESS -> if (it.data != null) {
+                            progress_bar.visibility = View.GONE
+                            adapter?.setModules(it.data.modules)
+                            adapter?.notifyDataSetChanged()
+                            populateCourse(it.data.courseEntity!!)
+                        }
+                        ERROR -> progress_bar.visibility = View.GONE
                     }
                 })
             }
@@ -60,6 +67,54 @@ class DetailCourseActivity : AppCompatActivity() {
         val dividerItemDecoration =
             DividerItemDecoration(rv_module.context, DividerItemDecoration.VERTICAL)
         rv_module.addItemDecoration(dividerItemDecoration)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        this.menu = menu!!
+        detailCourseViewModel.courseModules.observe(this, Observer { data ->
+            data?.let {
+                when (it.status) {
+                    SUCCESS -> {
+                        it.data?.let { item ->
+                            progress_bar.visibility = View.GONE
+                            val state = item.courseEntity?.bookmarked
+                            setBookmarkState(state)
+                        }
+                    }
+                    ERROR -> {
+                        progress_bar.visibility = View.GONE
+                        Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_LONG).show()
+                    }
+                    LOADING -> {
+                        progress_bar.visibility = View.VISIBLE
+                    }
+                }
+            }
+        })
+        return true
+    }
+
+    @Suppress("DEPRECATED_IDENTITY_EQUALS")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId === R.id.action_bookmark) {
+            detailCourseViewModel.setBookmarks()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setBookmarkState(state: Boolean?) {
+        menu.let {
+            val menuItem = menu.findItem(R.id.action_bookmark)
+            state?.let { st ->
+                if (st) {
+                    menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_bookmarked_white)
+                } else {
+                    menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_bookmark_white)
+                }
+            }
+        }
     }
 
     private fun populateCourse(course: CourseEntity) {
