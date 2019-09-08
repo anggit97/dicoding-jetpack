@@ -71,7 +71,9 @@ class DetailCourseActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
-        this.menu = menu!!
+        menu?.let { mn ->
+            this.menu = mn
+        }
         detailCourseViewModel.courseModules.observe(this, Observer { data ->
             data?.let {
                 when (it.status) {
@@ -99,6 +101,7 @@ class DetailCourseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId === R.id.action_bookmark) {
             detailCourseViewModel.setBookmarks()
+            Toast.makeText(this, "Boomark!", Toast.LENGTH_SHORT).show()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -106,11 +109,13 @@ class DetailCourseActivity : AppCompatActivity() {
 
     private fun setBookmarkState(state: Boolean?) {
         menu.let {
-            val menuItem = menu.findItem(R.id.action_bookmark)
+            val menuItem = it.findItem(R.id.action_bookmark)
             state?.let { st ->
-                if (st) {
+                if (!st) {
+                    Toast.makeText(this, "Sudah dibookmark", Toast.LENGTH_SHORT).show()
                     menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_bookmarked_white)
                 } else {
+                    Toast.makeText(this, "Belum dibookmark", Toast.LENGTH_SHORT).show()
                     menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_bookmark_white)
                 }
             }

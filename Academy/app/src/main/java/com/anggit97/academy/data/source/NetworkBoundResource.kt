@@ -12,7 +12,7 @@ import com.anggit97.academy.vo.Resource
  * Created by Anggit Prayogo on 2019-09-07.
  * Github : @anggit97
  */
-abstract class NetworkBoundResource<ResultType, RequestType>(appExecutors: AppExecutors) {
+abstract class NetworkBoundResource<ResultType, RequestType>(private val appExecutors: AppExecutors) {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -47,11 +47,11 @@ abstract class NetworkBoundResource<ResultType, RequestType>(appExecutors: AppEx
             result.removeSource(dbSource)
 
             when (response.status) {
-                SUCCESS -> mExecutors?.diskIO()?.execute {
+                SUCCESS -> appExecutors?.diskIO()?.execute {
 
                     saveCallResult(response.body)
 
-                    mExecutors.mainThread().execute {
+                    appExecutors.mainThread().execute {
                         result.addSource(
                             loadFromDB()
                         ) { newData -> result.setValue(
@@ -60,10 +60,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>(appExecutors: AppEx
                             )
                         ) }
                     }
-
                 }
 
-                EMPTY -> mExecutors?.mainThread()?.execute {
+                EMPTY -> appExecutors.mainThread().execute {
                     result.addSource(
                         loadFromDB()
                     ) { newData -> result.setValue(

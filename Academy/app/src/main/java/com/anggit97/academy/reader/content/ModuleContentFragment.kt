@@ -19,8 +19,6 @@ import com.anggit97.academy.vo.Status
 import kotlinx.android.synthetic.main.fragment_module_content.*
 
 
-
-
 /**
  * A simple [Fragment] subclass.
  */
@@ -50,13 +48,17 @@ class ModuleContentFragment : Fragment() {
             readerViewModel = obtainViewModel(activity!!)
             readerViewModel.selectedModule.observe(this, Observer { module ->
                 module?.let { data ->
-                    setButtonNextPrevState(data.data!!)
+                    data.data?.let {
+                        setButtonNextPrevState(it)
+                    }
                     when (data.status) {
                         Status.SUCCESS -> {
                             progress_bar.visibility = View.GONE
                             data.data.let { item ->
-                                if (!item.read!!) {
-                                    readerViewModel.readContent(item)
+                                item?.read?.let { isRead ->
+                                    if (!isRead) {
+                                        readerViewModel.readContent(item)
+                                    }
                                 }
 
                                 populateWebView(item)

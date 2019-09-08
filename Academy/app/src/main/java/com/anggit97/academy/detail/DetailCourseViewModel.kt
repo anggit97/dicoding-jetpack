@@ -38,7 +38,7 @@ class DetailCourseViewModel(private val mAcademyRepository: AcademyRepository) :
             courseModule?.let {
                 val courseEntity = courseModule.courseEntity
 
-                val newState = courseEntity?.bookmarked
+                val newState = courseEntity?.bookmarked?.not()
                 mAcademyRepository.setCourseBookmark(courseEntity!!, newState!!)
             }
         }
