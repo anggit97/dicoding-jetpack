@@ -15,5 +15,5 @@ data class CourseWithModule(
         parentColumn = "courseId",
         entityColumn = "courseId"
     )
-    var modules: List<ModuleEntity>
+    var modules: List<ModuleEntity>? = null
 )

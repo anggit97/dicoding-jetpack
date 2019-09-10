@@ -1,13 +1,12 @@
 package com.anggit97.academy.utils
 
+import com.anggit97.academy.data.source.local.entity.ContentEntity
 import com.anggit97.academy.data.source.local.entity.CourseEntity
+import com.anggit97.academy.data.source.local.entity.CourseWithModule
 import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.remote.response.ContentResponse
-import com.anggit97.academy.data.source.remote.response.ModuleResponse
 import com.anggit97.academy.data.source.remote.response.CourseResponse
-
-
-
+import com.anggit97.academy.data.source.remote.response.ModuleResponse
 
 
 /**
@@ -16,7 +15,7 @@ import com.anggit97.academy.data.source.remote.response.CourseResponse
  */
 object DataDummy {
 
-    fun generateDummyCourses(): ArrayList<CourseEntity> {
+    fun generateDummyCourses(): List<CourseEntity> {
 
         val courses = arrayListOf<CourseEntity>()
 
@@ -75,7 +74,7 @@ object DataDummy {
     }
 
 
-    fun generateDummyModules(courseId: String): ArrayList<ModuleEntity> {
+    fun generateDummyModules(courseId: String): List<ModuleEntity> {
 
         val modules = arrayListOf<ModuleEntity>()
 
@@ -158,7 +157,7 @@ object DataDummy {
         return null
     }
 
-    fun generateRemoteDummyCourses(): ArrayList<CourseResponse> {
+    fun generateRemoteDummyCourses(): List<CourseResponse> {
 
         val courses = arrayListOf<CourseResponse>()
 
@@ -211,7 +210,7 @@ object DataDummy {
         return courses
     }
 
-    fun generateRemoteDummyModules(courseId: String): ArrayList<ModuleResponse> {
+    fun generateRemoteDummyModules(courseId: String): List<ModuleResponse> {
 
         val modules = arrayListOf<ModuleResponse>()
 
@@ -277,7 +276,30 @@ object DataDummy {
         return modules
     }
 
+    fun generateDummyCourseWithModules(
+        course: CourseEntity,
+        bookmarked: Boolean
+    ): CourseWithModule {
+        val courseWithModule = CourseWithModule()
+        courseWithModule.courseEntity = course
+        courseWithModule.courseEntity?.bookmarked = bookmarked
+        courseWithModule.modules = generateDummyModules(course.courseId)
+        return courseWithModule
+    }
+
     fun generateRemoteDummyContent(moduleId: String): ContentResponse {
         return ContentResponse(moduleId, "This is a dummy content")
+    }
+
+    fun generateDummyContent(moduleId: String): ContentEntity {
+
+        return ContentEntity("This is a dummy content")
+    }
+
+    fun generateDummyModuleWithContent(courseId: String): ModuleEntity {
+        val moduleEntity = generateDummyModules(courseId)[0]
+        moduleEntity.contentEntity = generateDummyContent(moduleEntity.moduleId)
+
+        return moduleEntity
     }
 }

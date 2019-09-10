@@ -1,6 +1,7 @@
 package com.anggit97.academy.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.local.entity.CourseWithModule
 import com.anggit97.academy.data.source.local.entity.ModuleEntity
@@ -30,7 +31,7 @@ class LocalRepository(
         return academyDao.getAllCourses()
     }
 
-    fun getBookmarkCourses(): LiveData<List<CourseEntity>> {
+    fun getBookmarkCourses(): DataSource.Factory<Int, CourseEntity> {
         return academyDao.getAllBookmarks()
     }
 

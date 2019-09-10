@@ -12,7 +12,7 @@ import java.util.concurrent.Executors
  * Github : @anggit97
  */
 
-class AppExecutors @VisibleForTesting
+open class AppExecutors @VisibleForTesting
 constructor(
     private val diskIO: Executor,
     private val networkIO: Executor,

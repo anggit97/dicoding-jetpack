@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.AcademyRepository
 import com.anggit97.academy.utils.DataDummy
+import com.anggit97.academy.vo.Resource
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,14 +49,15 @@ class BookmarkViewModelTest {
 //    Melakukan pengecekan jumlah data course apakah sudah sesuai atau belum.
     @Test
     fun generateBookmarks() {
-        val dummyCourse = DataDummy.generateDummyCourses()
-        val course = MutableLiveData<ArrayList<CourseEntity>>()
+        val dummyCourse = Resource.success(DataDummy.generateDummyCourses())
+        val course = MutableLiveData<Resource<List<CourseEntity>>>()
         course.value = dummyCourse
 
         `when`(mAcademyRepository.getAllCourses()).thenReturn(course)
-        val observer : Observer<*> = mock(Observer::class.java)
+        val observer = mock(Observer::class.java)
 
-        SUT.getBookmarks().observeForever(observer as Observer<in ArrayList<CourseEntity>>)
+
+        SUT.getBookmarks().observeForever(observer as Observer<in Resource<List<CourseEntity>>>)
         verify(observer).onChanged(dummyCourse)
     }
 }

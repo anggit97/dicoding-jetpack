@@ -1,6 +1,7 @@
 package com.anggit97.academy.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.local.entity.CourseWithModule
@@ -19,7 +20,7 @@ interface AcademyDataSource {
 
     fun getAllModulesByCourse(courseId: String): LiveData<Resource<List<ModuleEntity>>>
 
-    fun getBookmarkedCourses(): LiveData<Resource<List<CourseEntity>>>
+    fun getBookmarkedCourses(): LiveData<Resource<PagedList<CourseEntity>>>
 
     fun getContent(moduleId: String): LiveData<Resource<ModuleEntity>>
 

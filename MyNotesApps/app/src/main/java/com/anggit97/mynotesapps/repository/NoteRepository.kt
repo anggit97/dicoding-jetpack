@@ -2,6 +2,7 @@ package com.anggit97.mynotesapps.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.anggit97.mynotesapps.database.Note
 import com.anggit97.mynotesapps.database.NoteDao
 import com.anggit97.mynotesapps.database.NoteDatabase
@@ -24,7 +25,7 @@ class NoteRepository(
         mNotesDao = db.noteDao()
     }
 
-    fun getAllNotes(): LiveData<List<Note>> {
+    fun getAllNotes(): DataSource.Factory<Int, Note> {
         return mNotesDao.getAllNotes()
     }
 

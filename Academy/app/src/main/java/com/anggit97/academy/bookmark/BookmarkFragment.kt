@@ -11,13 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.anggit97.academy.R
-import com.anggit97.academy.adapter.BookmarkAdapter
 import com.anggit97.academy.adapter.BookmarkFragmentCallback
+import com.anggit97.academy.adapter.BookmarkPagedAdapter
 import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.viewmodel.ViewModelFactory
 import com.anggit97.academy.vo.Status
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 
 
@@ -26,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_bookmark.*
  */
 class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
 
-    private var adapter: BookmarkAdapter? = null
+    private var adapter: BookmarkPagedAdapter? = null
 
     private lateinit var bookmarkViewModel: BookmarkViewModel
 
@@ -43,7 +46,7 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
         if (activity != null) {
             bookmarkViewModel = obtainViewModel(activity!!)
 
-            adapter = BookmarkAdapter(activity, this)
+            adapter = BookmarkPagedAdapter(this)
             rv_bookmark?.layoutManager = LinearLayoutManager(context)
             rv_bookmark?.setHasFixedSize(true)
             rv_bookmark?.adapter = adapter
@@ -52,7 +55,7 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
                 when (it.status) {
                     Status.SUCCESS -> {
                         progress_bar.visibility = View.GONE
-                        adapter?.setListCourses(it.data)
+                        adapter?.submitList(it.data)
                         adapter?.notifyDataSetChanged()
                     }
                     Status.ERROR -> {
@@ -64,6 +67,8 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
                     }
                 }
             })
+
+            itemTouchHelper.attachToRecyclerView(rv_bookmark)
         }
     }
 
@@ -90,4 +95,45 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
             return BookmarkFragment()
         }
     }
+
+    private val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ): Int {
+            return ItemTouchHelper.Callback.makeMovementFlags(
+                0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            )
+        }
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            if (view != null) {
+                val swipedPosition = viewHolder.adapterPosition
+                val courseEntity = adapter?.getItemById(swipedPosition)
+                courseEntity?.let {
+                    bookmarkViewModel.setBookmark(courseEntity)
+                }
+                view?.let { view ->
+                    val snackbar = Snackbar.make(view, R.string.message_undo, Snackbar.LENGTH_LONG)
+                    snackbar.setAction(
+                        R.string.message_ok
+                    ) {
+                        courseEntity?.let {
+                            bookmarkViewModel.setBookmark(courseEntity)
+                        }
+                    }
+                    snackbar.show()
+                }
+            }
+        }
+    })
 }

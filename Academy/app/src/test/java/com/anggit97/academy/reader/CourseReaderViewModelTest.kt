@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.anggit97.academy.data.source.local.entity.ModuleEntity
 import com.anggit97.academy.data.source.AcademyRepository
 import com.anggit97.academy.utils.DataDummy
+import com.anggit97.academy.vo.Resource
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,7 +31,7 @@ class CourseReaderViewModelTest {
 
     private var courseEntity = DataDummy.generateDummyCourses()[0]
     private var courseId = courseEntity.courseId
-    private var modulesFake = DataDummy.generateDummyModules(courseId!!)
+    private var modulesFake = DataDummy.generateDummyModules(courseId)
     private var moduleFake = modulesFake[0]
     private var moduleId = moduleFake.moduleId
 
@@ -41,7 +42,7 @@ class CourseReaderViewModelTest {
     @Before
     fun setUp() {
         SUT = CourseReaderViewModel(academyRepository)
-        SUT.setCourseId(courseId!!)
+        SUT.setCourseId(courseId)
     }
 
     //    CourseReaderViewModelTest:
@@ -57,16 +58,19 @@ class CourseReaderViewModelTest {
 //    Melakukan pengecekan jumlah data module apakah sudah sesuai atau belum.
     @Test
     fun loadModules() {
-        val modules = MutableLiveData<ArrayList<ModuleEntity>>()
-        modules.value = modulesFake
+        val resource = Resource.success(modulesFake)
+        val modules = MutableLiveData<Resource<List<ModuleEntity>>>()
+        modules.value = resource
 
-        `when`(academyRepository.getAllModulesByCourse(courseId!!))
+        `when`(academyRepository.getAllModulesByCourse(courseId))
             .thenReturn(modules)
         val observer = mock(Observer::class.java)
-        SUT.modules.observeForever(observer as Observer<in ArrayList<ModuleEntity>>)
-        verify(observer).onChanged(modulesFake)
+
+        SUT.modules.observeForever(observer as Observer<in Resource<List<ModuleEntity>>>)
+        verify(observer).onChanged(resource)
     }
-//
+
+    //
 //
 //    //    Memuat Module yang dipilih:
 ////
@@ -80,15 +84,16 @@ class CourseReaderViewModelTest {
 //
     @Test
     fun loadSelectedModule() {
-        val module = MutableLiveData<ModuleEntity>()
-        module.value = moduleFake
-        `when`(academyRepository.getContent(courseId!!, moduleId!!))
+        val resource = Resource.success(moduleFake)
+        val module = MutableLiveData<Resource<ModuleEntity>>()
+        module.value = resource
+        `when`(academyRepository.getContent(moduleId))
             .thenReturn(module)
         val observer = mock(Observer::class.java)
-        SUT.setSelectedModule(moduleId!!)
-        SUT.setCourseId(courseId!!)
-        SUT.selectedModule.observeForever(observer as Observer<in ModuleEntity?>)
-        verify(observer).onChanged(moduleFake)
+        SUT.setSelectedModule(moduleId)
+        SUT.setCourseId(courseId)
+        SUT.selectedModule.observeForever(observer as Observer<in Resource<ModuleEntity>>)
+        verify(observer).onChanged(resource)
     }
 }
 

@@ -2,6 +2,7 @@ package com.anggit97.academy.data.source.local.room
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.anggit97.academy.data.source.local.entity.CourseEntity
 import com.anggit97.academy.data.source.local.entity.CourseWithModule
@@ -20,7 +21,7 @@ interface AcademyDao {
 
     @WorkerThread
     @Query("SELECT * FROM courseentities WHERE bookmarked = 1")
-    fun getAllBookmarks(): LiveData<List<CourseEntity>>
+    fun getAllBookmarks(): DataSource.Factory<Int, CourseEntity>
 
     @Transaction
     @Query("SELECT * FROM courseentities WHERE courseId = :courseId")

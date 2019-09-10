@@ -5,21 +5,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anggit97.mynotesapps.R
+import com.anggit97.mynotesapps.database.Note
 import com.anggit97.mynotesapps.helper.ViewModelFactory
 import com.anggit97.mynotesapps.ui.insert.NoteAddUpdateActivity
 import com.anggit97.mynotesapps.ui.insert.REQUEST_ADD
 import com.anggit97.mynotesapps.ui.insert.REQUEST_UPDATE
 import com.anggit97.mynotesapps.ui.insert.RESULT_DELETE
-import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adapter: NoteAdapter
+    private lateinit var adapter: NotePagedListAdapter
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,20 +30,23 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel = obtainViewModel(this)
 
-        adapter = NoteAdapter(this)
+        adapter = NotePagedListAdapter(this)
 
         rv_notes.layoutManager = LinearLayoutManager(this)
         rv_notes.setHasFixedSize(true)
         rv_notes.adapter = adapter
 
-        mainViewModel.getAllNotes().observe(this, Observer {
-            if (it != null) {
-                adapter.setListNotes(it)
-            }
-        })
+        mainViewModel.getAllNotes().observe(this, noteObserver)
 
         onClickListener()
     }
+
+    private val noteObserver =
+        Observer<PagedList<Note>> { noteList ->
+            if (noteList != null) {
+                adapter.submitList(noteList)
+            }
+        }
 
     private fun onClickListener() {
         fab_add.setOnClickListener {
